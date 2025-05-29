@@ -1,0 +1,236 @@
+<html>
+<head>
+
+  <title>Bulls & Bears Trading Academy</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo {
+      position: absolute;
+      top: 73px;
+      left: 500px;
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      z-index: 10;
+      gap:20px;
+      margin:20px;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-top: 50px;
+      text-align: center;
+    }
+
+    h1 {
+      color: white;
+      margin-top: 80px; 
+    }
+
+    h3 {
+      color: rgba(69, 255, 69, 0.679);
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .arrows {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        font-size: 30px;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    .blinking-arrow {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+
+    .btn {
+      background-color: rgba(124, 246, 64, 0.679);
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .trainers {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .profile-card {
+        background-color: #1e1e1e;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 200px;
+        margin: 10px;
+    }
+
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top;
+        margin-bottom: 10px;
+    }
+
+    ul {
+      margin-top: 10px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    @media (max-width: 600px) {
+      .logo {
+        position: static;
+        margin: 0 auto;
+      }
+
+      .content {
+        padding-top: 20px;
+      }
+
+      .trainers {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="#" alt="logo">
+  </div>
+
+  <div class="content">
+    <h1>
+        <span style="color: rgba(69, 255, 69, 0.679);">Bulls</span> &amp; <span style="color: red;">Bears</span>
+    </h1>
+    <h3>Trading academy</h3>
+
+    <div class="section">
+      <h5>महाराष्ट्रातील एकमेव शेअर मार्केट अकॅडमी
+      <p>जिथे आमचे Profit - Loss Statement</p>
+      <p>शेअर केले जाते</p>
+      </h5>
+    </div>
+
+    <div class="section">
+      <h4>शेअर मार्केट मधील Secrets शिका</h4>
+      <p>Full time traders कडून</p>
+    </div>
+
+    <div class="section">
+      <h3>Join 1 Day Free Share Market Training on Zoom</h3>
+      <p>Date & Time</p>
+      <p>Join WhatsApp Group for Zoom Link</p>
+      <div class="arrows">
+        <span class="blinking-arrow">↓</span>
+        <span class="blinking-arrow">↓</span>
+        <span class="blinking-arrow">↓</span>
+      </div>
+      <a href="#" class="btn">Join WhatsApp Group</a>
+    </div>
+    <div class="section"> 
+
+      <div id="countdown" style="font-size: 24px; color: red; font-weight: bold;"></div>
+
+    </div>
+
+    <video width="600" controls>
+        <source src="#" type="video/mp4">
+        video.mp4
+        </video>
+
+
+    <div class="section">
+      <h3>शेअर मार्केट शिका आमच्या Expert Full Time Traders & Trainees</h3>
+      <p>Having 10 years of experience</p>
+    </div>
+
+    <div class="trainers">
+        <div class="profile-card">
+            <img src="IMG_20250315_093106.png.jpg" alt="Vishal Shinde" class="profile-pic">
+            <h4>Vishal Shinde</h4>
+            <p>B.E. Mech<br/>M.E. Design</p>
+        </div>
+        <div class="profile-card">
+            <img src="InShot_20250315_091851763.png" alt="Rohini Shinde" class="profile-pic">
+            <h4>Rohini Shinde</h4>
+            <p>MBA Finance</p>
+        </div>
+    </div>
+
+    <div class="section">
+      <h3>One Day Free Training Contents:</h3>
+      <ul>
+        <li>Investment Techniques & Balance Sheet Analysis</li>
+        <li>Swing & Positional Trading</li>
+        <li>Nifty - Bank Nifty Options Trading</li>
+        <li>Options Selling with Less Capital</li>
+        <li>Algo Trading</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+
+    const countdownDate = new Date("June 1, 2025 10:00:00").getTime();
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =`${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById("countdown").innerHTML = "Event Started!";
+      }
+    }, 1000);
+
+  </script>
+
+</body>
+</html>
