@@ -1,0 +1,275 @@
+<html>
+<head>
+  <title>College Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background-color: #0047AB;
+    }
+
+    .left-panel {
+      background-color: #0047AB;
+      color: black;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .logo-img {
+      width: 215px; 
+      height: auto;
+      display: block;
+      margin-left: 140px;
+      margin-top: -150px;
+    }
+
+    .logo-container {
+      margin-top: 60px;   
+      margin-left: 320px;   
+      text-align: left;  
+      white-space: nowrap;
+    }
+
+    .stay-connected {
+      position: absolute;
+      font-weight: bold;
+      bottom: 50px; 
+      left: 205px;  
+      color: rgb(255, 255, 255);
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    
+    .right-panel-container {
+      width: 700px;
+      background-color: transparent;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      position: absolute;
+      right: 85px;
+      top: 85px;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-header {
+      padding: 30px;
+      font-size: 24px;
+      height: 200px;
+      text-align: center;
+      background-color: #33B5FF;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('books.jpeg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 1;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+      padding-left: 20px;
+    }
+
+    .header-image {
+      width: 200px;
+      height: 200%;
+      object-fit: cover;
+    }
+
+    .header-text {
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      position: relative;
+      top: -30px;  
+      left: 10px;   
+    }
+
+    .bottom-white-section {
+      background-color: white;
+      flex: 1;
+      padding: 5px 20px 5px 20px;
+    }
+
+    .footer-note {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: black;
+    }
+
+    .top-floating-info {
+      position: absolute;
+      left: 405px;
+      top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .top-floating-info img {
+      height: auto;
+      width: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .top-floating-info .info-text {
+      position: absolute;
+      top: 15px;
+      left: 90px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .form-control {
+      margin-bottom: 10px;
+    }
+
+    .image-box {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 8px; 
+      margin-right: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .right-panel-container {
+        width: 100%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+      }
+
+      .top-floating-info {
+        right: 10px;
+        top: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-md-3 left-panel d-flex flex-column justify-content-center align-items-center position-relative text-center">
+            <div class="logo-container">
+              <img src="muhs-logo.png" alt="College Logo" class="logo-img mb-3">
+              <div style="text-align: center; max-width: 500px; margin-left:-40px;">
+                <h4 class="text-white fw-bold mb-1">MAHARASHTRA UNIVERSITY OF HEALTH SCIENCES, 
+                <br>NASHIK</h4>
+                <h5 class="text-white fw-bold mt-0">महाराष्ट्र आरोग्य विज्ञान विद्यापीठ, नाशिक</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9 position-relative">
+            <div class="top-floating-info">
+              <div class="info-text">
+                Stay Connected. Stay Involved. Stay Informed.
+              </div>
+            </div>
+            <div class="right-panel-container">
+              <div class="top-header">
+                <div class="header-content">
+                  <img src="header.png" alt="Left Image" class="header-image">
+                  <div class="header-text">Welcome to MUHS Alumni Portal</div>
+                </div>
+              </div>
+              <div class="bottom-white-section">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5 style="font-size: 14px; margin-bottom: 15px; text-align: center; max-width: 280px; margin-left: auto; margin-right: auto;">
+                      Welcome to Alumni platform to connect with each other
+                    </h5>
+                    <button type="button" class="btn btn-light w-100 border d-flex align-items-center justify-content-center mb-2" style="gap: 8px;">
+                      <img src="google.png" alt="Google Icon" style="width: 20px; height: 20px;">
+                      Sign in with Google
+                    </button>
+                    <div class="d-flex align-items-center my-3">
+                      <hr class="flex-grow-1">
+                      <span class="mx-2 text-muted">OR</span>
+                      <hr class="flex-grow-1">
+                    </div>
+                    <form>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Mobile Or Email Address</label>
+                        <input type="text" class="form-control" id="email" placeholder="Enter your email or mobile">
+                      </div>
+                      <div class="mb-3">
+                        <label for="password" class="form-label">Your Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        <div class="d-flex justify-content-end mt-1">
+                            <a href="#" class="small text-primary" style="text-decoration: none;">Forgot Password?</a>
+                        </div>
+                      </div>
+                      <div class="d-grid mt-3 mb-3">
+                        <button type="submit" class="btn btn-primary" style="background-color: #0047AB; color: white; font-weight: bold;">SIGN IN</button>
+                      </div>
+                      <div class="text-center mt-2">
+                        <small>Don't Have An Account? <a href="#" class="text-primary">Sign Up</a></small>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row g-1"> <!-- 'g-1' reduces gap between columns -->
+                      <div class="col-6 pe-1">
+                        <img src="pic1.jpg" class="image-box" alt="Image 1">
+                      </div>
+                      <div class="col-6 ps-1">
+                        <img src="pic2.jpg" class="image-box" alt="Image 2">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <img src="pic3.jpg" class="image-box" alt="Image 3">
+                      </div>
+                      <div class="col-12">
+                        <img src="pic4.jpg" class="image-box mb-0" alt="Image 4">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div> 
+      </div> 
+    </div>
+  </div>
+</body>
+</html>
