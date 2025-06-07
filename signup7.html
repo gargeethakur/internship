@@ -207,28 +207,36 @@
   }
 
   .dots-bottom {
-    position: absolute;
-    bottom: 20px; 
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-style: italic;
-    font-size: 22px;
-    white-space: nowrap;
-    margin-left: 305px;
-  }
+
+      bottom: 20px;
+    
+      color: white;
+      font-style: italic;
+      font-size: 22px;
+      white-space: nowrap;
+      text-align: center;
+      width: 40%;
+      height: 30%;
+    }
+
+/* Optional: Adjust font size for smaller screens */
+    @media (max-width: 768px) {
+      .dots-bottom {
+        font-size: 16px;
+        bottom: 10px;
+      }
+    }
+
 
   .box { 
       position: fixed; 
       bottom: 0px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
       background-color: #003374; 
-      padding: 10px 20px;
-      z-index: 1000;
-      margin-left: -745px;
-      width: 1277px;
-      height: 80px;
+      padding: 10px 0;
+      width: 100%;
+      height: 10%;
+
     }
 
     .info-box {
