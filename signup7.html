@@ -7,11 +7,12 @@
     body, html {
       height: 100%;
       margin: 0;
-      background-color: rgb(51, 33, 242);
+      background-color: #0D4693;
     }
 
     .left-panel {
-      background-color: rgb(51, 33, 242);
+      position: relative;
+      background-color: #0D4693;
       color: white;
       padding: 30px 20px;
       text-align: center;
@@ -33,52 +34,40 @@
     }
 
     .logo-wrapper {
-      background-color: rgba(255, 255, 255, 0.85); /* soft white background */
+      background-color: rgba(255, 255, 255, 0.85); 
       padding: 10px;
       width: 185px;
       height: 185px;
       display: inline-block;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); /* optional soft shadow */
-      margin-left: 150px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); 
+      margin-left: 60px;
       margin-top: 30px;
     }
 
     .alumni-text {
-      color: white;
       font-size: 45px;
       font-weight: bold;
-      padding-left: 30px;
+
       padding-top: 30px;
-      /* font-family:  */
+      margin-left: -55px;
+      margin-top: 35px;
     }
 
-    .stay-connected {
-      position: absolute;
-      font-weight: bold;
-      bottom: 50px; 
-      left: 205px;  
-      color: rgb(255, 255, 255);
-      font-size: 16px;
-      white-space: nowrap;
-    }
-
-    .dots {
-      color:white;
-      padding-left: 65px;
-    }
+    
     
     .right-panel-container {
-      width: 700px;
+      width: 830px;
       background-color: transparent;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       position: absolute;
-      right: 85px;
-      top: 85px;
+      right: 40px;
+      top: 40px;
       bottom: 0;
       display: flex;
       flex-direction: column;
+ 
     }
 
     .top-header {
@@ -86,9 +75,10 @@
       font-size: 24px;
       height: 200px;
       text-align: center;
-      background-color: #33B5FF;
+      background-color: #06327B;
       position: relative;
       overflow: hidden;
+  
     }
 
     .top-header::before {
@@ -123,28 +113,19 @@
     }
 
     .header-text {
-      color: black;
-      font-size: 24px;
+      
+      font-size: 26px;
       font-weight: bold;
       font-family: 'Segoe UI', 'Roboto', sans-serif;
       position: relative;
       top: -30px;  
-      left: 10px;   
+      left: 28px;   
     }
 
     .bottom-white-section {
       background-color: white;
       flex: 1;
       padding: 5px 20px 5px 20px;
-    }
-
-    .footer-note {
-      position: absolute;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-size: 14px;
-      color: black;
     }
 
     .top-floating-info {
@@ -156,21 +137,16 @@
       gap: 15px;
     }
 
-    .top-floating-info img {
-      height: auto;
-      width: 60px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-
     .top-floating-info .info-text {
       position: absolute;
       top: 15px;
-      left: 90px;
+      left: 40px;
       font-size: 20px;
       font-weight: bold;
-      color: white;
+      color: black;
       white-space: nowrap;
+      margin-top: -6px;
+      margin-left: 60px;
     }
 
     .form-control {
@@ -179,13 +155,115 @@
 
     .image-box {
       width: 100%;
-      height: 150px;
+      height: 130px;
       object-fit: cover;
       margin-bottom: 8px; 
       margin-right: 8px;
       border-radius: 5px;
       border: 1px solid #ccc;
+
     }
+
+    .image-section {
+      margin-bottom: -20px;
+    }
+
+    .highlight-boxes {
+      display: flex;
+      justify-content: center;
+      margin-top: -70px; 
+      position: relative;
+      z-index: 10;
+      gap: 0px;
+    }
+
+  .highlight-boxes .info-box {
+    width: 250px;
+    height: 65px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+ 
+
+
+  .white-floating-box {
+    background-color: white;
+    color: #0A4591;
+    padding: 10px 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 120px;
+    width: 630px;
+    height: 50px;
+    left: 190%;
+    transform: translateX(-50%);
+    z-index: 3;
+    margin-left: 386px;
+    margin-top: -80px;
+  }
+
+  .dots-bottom {
+    position: absolute;
+    bottom: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-style: italic;
+    font-size: 22px;
+    white-space: nowrap;
+    margin-left: 305px;
+  }
+
+  .box { 
+      position: fixed; 
+      bottom: 0px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #003374; 
+      padding: 10px 20px;
+      z-index: 1000;
+      margin-left: -745px;
+      width: 1277px;
+      height: 80px;
+    }
+
+    .info-box {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .watermark-bg {
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover; 
+      opacity: 0.1; 
+      z-index: 0;
+
+    }
+
+    .info-box-connect .watermark-bg {
+      background-image: url('red.jpeg');
+    }
+
+    .info-box-share .watermark-bg {
+      background-image: url('img1.jpg'); 
+    }
+
+    .info-box-grow .watermark-bg {
+      background-image: url('pic3.jpg'); 
+    }
+
+    .info-content {
+      position: relative;
+      z-index: 1;
+    }
+
 
     @media (max-width: 768px) {
       .header-content {
@@ -202,7 +280,7 @@
 
       .top-floating-info {
         right: 10px;
-        top: 10px;
+        top: 20px;
         flex-direction: column;
         align-items: flex-start;
       }
@@ -215,36 +293,69 @@
         <div class="col-md-3 left-panel d-flex flex-column justify-content-center align-items-center position-relative text-center">
             <div class="logo-container">
               
-              <div style="text-align: center; max-width: 500px; margin-left:-40px; margin-top: -200px;">
-                <h4 class="text-white fw-bold mb-1">MAHARASHTRA UNIVERSITY OF HEALTH SCIENCES, 
-                <br>NASHIK</h4>
-                <h5 class="text-white fw-bold mt-0">महाराष्ट्र आरोग्य विज्ञान विद्यापीठ, नाशिक</h5>
+              <div style="text-align: center; max-width: 500px; margin-left:-95px; margin-top: -350px;">
+                <h4 class="text-white fw-bold mb-1">MAHARASHTRA UNIVERSITY OF HEALTH
+                <br>SCIENCES, NASHIK</h4>
+                <h5 class="text-white fw-bold" style="margin-top: 20px; margin-left: 15px;">
+                  महाराष्ट्र आरोग्य विज्ञान विद्यापीठ, नाशिक
+                </h5>
               </div>
               <div class="logo-wrapper">
                 <img src="muhs-logo.png" alt="College Logo" class="logo-img mb-3">
               </div>
-              <h5 class="alumni-text mt-2">𝐴𝑙𝑢𝑚𝑛𝑖 𝐴𝑠𝑠𝑜𝑐𝑖𝑎𝑡𝑖𝑜𝑛</h5>
-              <h3 class="dots"> Let's connect the dots...! </h3>
+              <h5 class="alumni-text">𝐴𝑙𝑢𝑚𝑛𝑖 𝐴𝑠𝑠𝑜𝑐𝑖𝑎𝑡𝑖𝑜𝑛</h5>
+              <div class="box">
+                <h3 class="dots-bottom"> 𝐿𝑒𝑡'𝑠 𝑐𝑜𝑛𝑛𝑒𝑐𝑡 𝑡ℎ𝑒 𝑑𝑜𝑡𝑠...! </h3>
+              </div>
             </div>
 
           </div>
           <div class="col-md-9 position-relative">
             <div class="top-floating-info">
+              <div class="white-floating-box">
               <div class="info-text">
-                Stay Connected. Stay Involved. Stay Informed.
+                𝑆𝑡𝑎𝑦 𝐶𝑜𝑛𝑛𝑒𝑐𝑡𝑒𝑑. 𝑆𝑡𝑎𝑦 𝐼𝑛𝑣𝑜𝑙𝑣𝑒𝑑. 𝑆𝑡𝑎𝑦 𝐼𝑛𝑓𝑜𝑟𝑚𝑒𝑑.
+              </div>
               </div>
             </div>
-            <div class="right-panel-container">
+            <div class="right-panel-container" style="position:fixed;">
               <div class="top-header">
                 <div class="header-content">
                   <img src="header.png" alt="Left Image" class="header-image">
-                  <div class="header-text">Welcome to MUHS Alumni Portal</div>
+                  <div class="header-text" style="color: white;">Welcome to <span style="color: #EC8E14;">MUHS Alumni Portal</span></div>
                 </div>
               </div>
+              
+                <div class="highlight-boxes">
+                  <div class="info-box text-white p-3 info-box-connect" style="background-color: #E62262;">
+                    <div class="watermark-bg"></div>
+                    <div class="info-content position-relative">
+                      <h6 class="mb-1">Connect</h6>
+                      <p class="mb-0">Join your alumni network.</p>
+                    </div>
+                  </div>
+
+                  <div class="info-box text-white p-3 info-box-share" style="background-color: #EC8E14;">
+                    <div class="watermark-bg"></div>
+                    <div class="info-content position-relative">
+                      <h6 class="mb-1">Share</h6>
+                      <p class="mb-0">Tell your success stories.</p>
+                    </div>
+                  </div>
+
+                  <div class="info-box text-white p-3 info-box-grow" style="background-color: #56DAE7;">
+                    <div class="watermark-bg"></div>
+                    <div class="info-content position-relative">
+                      <h6 class="mb-1">Grow</h6>
+                      <p class="mb-0">Explore new opportunities.</p>
+                    </div>
+                  </div>
+                </div>
+
               <div class="bottom-white-section">
                 <div class="row">
-                  <div class="col-md-6">
-                    <h5 style="font-size: 14px; margin-bottom: 15px; text-align: center; max-width: 280px; margin-left: auto; margin-right: auto;">
+                  <div class="col-md-6 mt-5">
+                    <h5 style="font-size: 16px; margin-bottom: 15px; text-align: center; max-width: 280px; margin-left: auto; margin-right: auto;">
                       Welcome to Alumni platform to connect with each other
                     </h5>
                     <button type="button" class="btn btn-light w-100 border d-flex align-items-center justify-content-center mb-2" style="gap: 8px;">
@@ -269,14 +380,14 @@
                         </div>
                       </div>
                       <div class="d-grid mt-3 mb-3">
-                        <button type="submit" class="btn btn-primary" style="background-color: #0047AB; color: white; font-weight: bold;">SIGN IN</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #003374; color: white; font-weight: bold;">SIGN IN</button>
                       </div>
                       <div class="text-center mt-2">
                         <small>Don't Have An Account? <a href="#" class="text-primary">Sign Up</a></small>
                       </div>
                     </form>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 image-section" style="padding-top: 80px;">
                     <div class="row g-1"> 
                       <div class="col-6 pe-1">
                         <img src="pic1.jpg" class="image-box" alt="Image 1">
@@ -303,7 +414,7 @@
 
                       </div>
                       <div class="col-12">
-                        <img src="pic4.jpg" class="image-box mb-0" alt="Image 4">
+                        <img src="pic4.jpg" class="image-box" style="margin-top: -4px; margin-bottom: -6px;" alt="Image 4">
                       </div>
                     </div>
                   </div>
