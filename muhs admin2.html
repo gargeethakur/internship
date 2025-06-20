@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUHS Alumni Portal - Admin Dashboard</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #0D4693;
+            --secondary-blue: #06327B;
+            --accent-pink: #E62262;
+            --accent-orange: #EC8E14;
+            --accent-cyan: #56DAE7;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .stat-card .card-body {
+            padding: 25px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+        
+        .chart-container canvas {
+            max-height: 350px !important;
+        }
+        
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--secondary-blue);
+        }
+        
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .brand-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .page-title {
+            color: var(--secondary-blue);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        
+        .recent-activity {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            padding: 15px;
+            border-left: 4px solid var(--accent-orange);
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .activity-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 260px;
+            }
+            
+            .sidebar {
+                width: var(--sidebar-width);
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .mobile-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                background: var(--primary-blue);
+                color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 8px;
+                font-size: 18px;
+            }
+            
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+            
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+    </button>
+    
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    
+    <div class="sidebar" id="sidebar">
+        <div class="p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="brand-logo">
+                    <i class="bi bi-mortarboard-fill text-primary"></i>
+                </div>
+                <div class="brand-text">MUHS Admin</div>
+            </div>
+            
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="#dashboard">
+                    <i class="bi bi-speedometer2 me-3"></i>Dashboard
+                </a>
+                <a class="nav-link" href="#posts">
+                    <i class="bi bi-file-post me-3"></i>Posts
+                </a>
+                <a class="nav-link" href="#jobs">
+                    <i class="bi bi-briefcase me-3"></i>Jobs
+                </a>
+                <a class="nav-link" href="#events">
+                    <i class="bi bi-calendar-event me-3"></i>Events
+                </a>
+                <a class="nav-link" href="#donations">
+                    <i class="bi bi-heart me-3"></i>Donations
+                </a>
+                <a class="nav-link" href="#alumni">
+                    <i class="bi bi-people me-3"></i>Alumni
+                </a>
+                <a class="nav-link" href="#colleges">
+                    <i class="bi bi-building me-3"></i>Colleges
+                </a>
+                <a class="nav-link" href="#settings">
+                    <i class="bi bi-gear me-3"></i>Settings
+                </a>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="page-title">Alumni Portal Dashboard</h1>
+            <div class="d-flex align-items-center">
+                <span class="text-muted me-3">Welcome, Admin</span>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-2"></i>Profile
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--accent-pink);">
+                            <i class="bi bi-file-post"></i>
+                        </div>
+                        <div class="stat-number text-primary">1000</div>
+                        <div class="stat-label">Total Posts</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--accent-orange);">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+                        <div class="stat-number text-warning">100</div>
+                        <div class="stat-label">Active Jobs</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--accent-cyan);">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="stat-number text-info">180</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--primary-blue);">
+                            <i class="bi bi-heart"></i>
+                        </div>
+                        <div class="stat-number text-success">₹50k</div>
+                        <div class="stat-label">Total Donations</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-xl-6 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--secondary-blue);">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="stat-number text-primary">30,000</div>
+                        <div class="stat-label">Registered Alumni</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-6 col-lg-6 col-md-6 mb-4">
+                <div class="card stat-card">
+                    <div class="card-body text-center">
+                        <div class="stat-icon mx-auto" style="background: var(--accent-pink);">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="stat-number text-danger">30</div>
+                        <div class="stat-label">Affiliated Colleges</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 col-md-12 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Monthly Activity Overview</h3>
+                    <canvas id="activityChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Content Distribution</h3>
+                    <canvas id="pieChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Alumni Registration</h3>
+                    <canvas id="alumniChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="chart-container">
+                    <h3 class="chart-title">Recent Activity</h3>
+                    <div class="recent-activity">
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>New Alumni Registration</strong>
+                                <span class="activity-time">time</span>
+                            </div>
+                            <small class="text-muted">xyz</small>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>Job Posted</strong>
+                                <span class="activity-time">time</span>
+                            </div>
+                            <small class="text-muted">xyz</small>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>Event Created</strong>
+                                <span class="activity-time">time</span>
+                            </div>
+                            <small class="text-muted">xyz</small>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>Donation Received</strong>
+                                <span class="activity-time">time</span>
+                            </div>
+                            <small class="text-muted">xyz</small>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between">
+                                <strong>New Post</strong>
+                                <span class="activity-time">time</span>
+                            </div>
+                            <small class="text-muted">xyz</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        const activityCtx = document.getElementById('activityChart').getContext('2d');
+        const activityChart = new Chart(activityCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Posts',
+                        data: [65, 85, 120, 95, 140, 160, 180, 200, 150, 170, 190, 220],
+                        borderColor: '#E62262',
+                        backgroundColor: 'rgba(230, 34, 98, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#E62262',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: 'Jobs',
+                        data: [12, 15, 18, 22, 25, 30, 28, 32, 35, 40, 38, 42],
+                        borderColor: '#EC8E14',
+                        backgroundColor: 'rgba(236, 142, 20, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#EC8E14',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: 'Events',
+                        data: [8, 12, 15, 18, 20, 25, 22, 28, 30, 35, 32, 38],
+                        borderColor: '#56DAE7',
+                        backgroundColor: 'rgba(86, 218, 231, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#56DAE7',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: 'Donations',
+                        data: [5, 8, 12, 15, 18, 22, 25, 20, 24, 28, 30, 35],
+                        borderColor: '#0D4693',
+                        backgroundColor: 'rgba(13, 70, 147, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0D4693',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6c757d',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6c757d',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                size: 13,
+                                weight: '500'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: true,
+                        mode: 'index',
+                        intersect: false
+                    }
+                }
+            }
+        });
+        
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Posts', 'Jobs', 'Events', 'Donations'],
+                datasets: [{
+                    data: [1000, 100, 180, 200],
+                    backgroundColor: [
+                        '#E62262',
+                        '#EC8E14',
+                        '#56DAE7',
+                        '#0D4693'
+                    ],
+                    borderWidth: 0,
+                    hoverBorderWidth: 3,
+                    hoverBorderColor: '#fff',
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                size: 13,
+                                weight: '500'
+                            },
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map((label, i) => {
+                                        const dataset = data.datasets[0];
+                                        const value = dataset.data[i];
+                                        const total = dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((value / total) * 100).toFixed(1);
+                                        return {
+                                            text: `${label}: ${value} (${percentage}%)`,
+                                            fillStyle: dataset.backgroundColor[i],
+                                            hidden: isNaN(dataset.data[i]),
+                                            index: i
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        const alumniCtx = document.getElementById('alumniChart').getContext('2d');
+        const alumniChart = new Chart(alumniCtx, {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'New Alumni Registrations',
+                    data: [420, 580, 650, 890, 1240, 320],
+                    backgroundColor: function(context) {
+                        const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 300);
+                        gradient.addColorStop(0, '#0D4693');
+                        gradient.addColorStop(1, 'rgba(13, 70, 147, 0.6)');
+                        return gradient;
+                    },
+                    borderColor: '#0D4693',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    hoverBackgroundColor: '#E62262',
+                    hoverBorderColor: '#E62262'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6c757d',
+                            font: {
+                                size: 12
+                            },
+                            callback: function(value) {
+                                return value.toLocaleString();
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6c757d',
+                            font: {
+                                size: 12,
+                                weight: '500'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                return `Registrations: ${context.parsed.y.toLocaleString()}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        document.querySelector('.main-content').addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
