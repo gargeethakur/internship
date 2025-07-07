@@ -197,10 +197,26 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
             transition: transform 0.3s ease;
             height: 100%;
+            position: relative;
+            overflow: hidden;
         }
 
         .trainer-card:hover {
             transform: translateY(-10px);
+        }
+
+        .trainer-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .trainer-card:hover .trainer-photo {
+            transform: scale(1.05);
         }
 
         .trainer-name {
@@ -214,6 +230,48 @@
             opacity: 0.9;
         }
 
+        .trainer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Decorative elements */
+        .trainer-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .trainer-card {
+                padding: 2rem;
+            }
+            
+            .trainer-photo {
+                width: 100px;
+                height: 100px;
+            }
+        }
         .courses {
             padding: 6rem 0;
             background: var(--dark-secondary);
@@ -336,6 +394,62 @@
             gap: 25px;
         }
 
+        .gallery-controls {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .expand-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .expand-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .gallery-grid {
+            display: grid;
+            gap: 25px;
+            transition: all 0.5s ease;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .gallery-grid.collapsed {
+            overflow: hidden;
+            max-height: 600px;
+            position: relative;
+        }
+
+        .gallery-grid.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(248, 249, 250, 0.9));
+            pointer-events: none;
+        }
+
+        /* Expanded state - responsive columns */
+        .gallery-grid.expanded {
+            max-height: none;
+        }
+
+        .gallery-grid.expanded::after {
+            display: none;
+        }
+
         .gallery-item {
             background: white;
             border-radius: 15px;
@@ -364,6 +478,20 @@
             transform: scale(1.05);
         }
 
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .gallery-caption {
             padding: 1.5rem;
             text-align: center;
@@ -378,6 +506,18 @@
         .gallery-caption p {
             color: #6c757d;
             margin: 0;
+        }
+
+        .gallery-item img,
+        .gallery-item iframe {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item iframe {
+            border: none;
         }
 
         .video-overlay {
@@ -488,11 +628,10 @@
         }
 
         .reviews {
-            padding: 4rem 0;
+            padding: 2rem 0;
             background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
             position: relative;
             overflow: hidden;
-            min-height: 100vh;
         }
 
         .reviews::before {
@@ -508,34 +647,28 @@
             pointer-events: none;
         }
 
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .reviews-slider {
             position: relative;
-            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
             padding: 0 20px;
+            z-index: 2;
         }
 
-        .review-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            overflow: visible;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            height: auto;
-            min-height: 280px;
-            width: 100%;
+        .slider-container {
+            position: relative;
+            overflow: hidden;
         }
 
-        .review-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            will-change: transform;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            position: relative;
         }
 
         .review-image {
@@ -549,159 +682,124 @@
             border-radius: 15px;
         }
 
-        .review-card:hover .review-image {
-            transform: scale(1.02);
-        }
-
-        .review-placeholder {
-            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
-            height: 250px;
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-size: 1rem;
-            text-align: center;
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
 
-        /* Large Desktop */
-        @media (min-width: 1400px) {
-            .reviews-grid {
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                gap: 30px;
-                padding: 0 40px;
-            }
-            
-            .review-image {
-                min-height: 280px;
-            }
+        .slider-nav:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* Desktop */
-        @media (max-width: 1399px) and (min-width: 1200px) {
-            .reviews-grid {
-                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-                gap: 25px;
-            }
+        .slider-nav.prev {
+            left: 20px;
         }
 
-        /* Large Tablet */
-        @media (max-width: 1199px) and (min-width: 992px) {
-            .reviews-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 20px;
-                padding: 0 25px;
-            }
-            
-            .review-image {
-                min-height: 220px;
-            }
-            
-            .reviews {
-                padding: 3.5rem 0;
-            }
+        .slider-nav.next {
+            right: 20px;
         }
 
-        /* Tablet Portrait */
-        @media (max-width: 991px) and (min-width: 769px) {
-            .reviews-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-                padding: 0 20px;
-            }
-            
-            .review-image {
-                min-height: 200px;
-            }
-            
-            .reviews {
-                padding: 3rem 0;
-            }
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
         }
 
-        /* Mobile Landscape / Small Tablet */
-        @media (max-width: 768px) and (min-width: 577px) {
-            .reviews-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 18px;
-                padding: 0 15px;
-            }
-            
-            .review-image {
-                min-height: 180px;
-            }
-            
-            .review-card {
-                min-height: 220px;
-            }
-            
-            .reviews {
-                padding: 2.5rem 0;
-            }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
         }
 
-        /* Mobile Portrait */
-        @media (max-width: 576px) {
-            .reviews-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                padding: 0 15px;
-            }
-            
-            .review-card {
-                max-width: 100%;
-                min-height: 200px;
-            }
-            
-            .review-image {
-                min-height: 160px;
-                max-height: 400px;
-            }
-            
+        .dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (max-width: 768px) {
             .reviews {
                 padding: 2rem 0;
             }
-        }
-
-        /* Small Mobile */
-        @media (max-width: 480px) {
-            .reviews-grid {
-                padding: 0 10px;
-                gap: 12px;
+            
+            .reviews-slider {
+                padding: 0 15px;
             }
             
             .review-image {
-                min-height: 140px;
-                max-height: 350px;
+                min-height: 300px;
             }
             
-            .review-card {
-                min-height: 180px;
+            .slider-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .slider-nav.prev {
+                left: 10px;
+            }
+            
+            .slider-nav.next {
+                right: 10px;
+            }
+            
+            .slide-counter {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
             }
         }
 
-        /* Extra Small Mobile */
-        @media (max-width: 375px) {
-            .reviews-grid {
-                padding: 0 8px;
-                gap: 10px;
-            }
-            
-            .review-image {
-                min-height: 120px;
-                max-height: 300px;
-            }
-            
-            .review-card {
-                min-height: 160px;
-                border-radius: 12px;
-            }
-            
-            .reviews {
-                padding: 1.5rem 0;
+        /* Touch/Swipe indicators */
+        .slider-container {
+            touch-action: pan-y;
+        }
+
+        @media (pointer: coarse) {
+            .slider-nav {
+                opacity: 0.8;
             }
         }
 
@@ -804,17 +902,23 @@
             <div class="row">
                 <div class="col-lg-6 mb-4 animate-on-scroll">
                     <div class="trainer-card">
-                        <div class="trainer-name">Vishal Shinde</div>
-                        <div class="trainer-description">
-                            Having more than 12 years Tata Group experience as Engineer; Vishal Shinde is Full time trader & trainer in Indian share market. His education qualification is B.E. Mechanical & M. E. Mechanical Design. While pursuing career as engineer in Tata Group he started part time trading (4 years) in share market. After developing disciplined, profitable trading methods he left his job in 2021 & started as full time trader & is in consistently in profit every year. He is almost 15 time Zerodha challenge winner. He is the only trainer in share market in Maharashtra who share his profit-Loss statement live in his webinars & trainings. He gives live market trading sessions.
+                        <div class="trainer-content">
+                            <img src="IMG_20240130_125223.jpg" alt="Vishal Shinde" class="trainer-photo">
+                            <div class="trainer-name">Vishal Shinde</div>
+                            <div class="trainer-description">
+                                Having more than 12 years Tata Group experience as Engineer; Vishal Shinde is Full time trader & trainer in Indian share market. His education qualification is B.E. Mechanical & M. E. Mechanical Design. While pursuing career as engineer in Tata Group he started part time trading (4 years) in share market. After developing disciplined, profitable trading methods he left his job in 2021 & started as full time trader & is in consistently in profit every year. He is almost 15 time Zerodha challenge winner. He is the only trainer in share market in Maharashtra who share his profit-Loss statement live in his webinars & trainings. He gives live market trading sessions.
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4 animate-on-scroll">
                     <div class="trainer-card">
-                        <div class="trainer-name">Rohini Shinde</div>
-                        <div class="trainer-description">
-                            Passed as M.B.A Finance Rohini Shinde is working as trader & trainer in share market since last 5 years. She worked as teacher in central Govt. schools for around 4 years. She is house maker as well as part time trader. She also handles marketing & takes live support sessions for academy's old students.
+                        <div class="trainer-content">
+                            <img src="IMG_20240130_122444.jpg" alt="Rohini Shinde" class="trainer-photo">
+                            <div class="trainer-name">Rohini Shinde</div>
+                            <div class="trainer-description">
+                                Passed as M.B.A Finance Rohini Shinde is working as trader & trainer in share market since last 5 years. She worked as teacher in central Govt. schools for around 4 years. She is house maker as well as part time trader. She also handles marketing & takes live support sessions for academy's old students.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -913,6 +1017,7 @@
                 </div>
             </div>
 
+            <div class="gallery-grid collapsed" id="galleryGrid">
             <div class="gallery-grid" id="galleryGrid">
                 <div class="gallery-item" data-category="trading-sessions" data-type="image">
                     <img src="IMG_20231016_211620.jpg" alt="" loading="lazy">
@@ -1084,7 +1189,13 @@
                     </iframe>
                 </div>
                 
-                
+            </div>
+            </div>
+
+            <div class="gallery-controls">
+                <button class="expand-btn" onclick="toggleGallery()">
+                    <span id="btn-text">Show More</span>
+                </button>
             </div>
         </div>
     </section>
@@ -1104,54 +1215,64 @@
     </div>
 
     <section class="reviews">
-        <div class="reviews-grid">
-            <div class="review-card">
-                <img src="1.jpg" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review AI.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review 4.9.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review student-1.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review student-2.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review student-3.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
-            </div>
+        <div class="reviews-slider">
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack">
+                    <div class="slide">
+                        <img src="1.jpg" alt="" class="review-image" loading="lazy">
+                    </div>
 
-            <div class="review-card">
-                <img src="Google review student-4.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review student-5.JPG" alt="" class="review-image" loading="lazy">
-            </div>
-            
-            <div class="review-card">
-                <img src="Google review student-6.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
-            </div>
+                    <div class="slide">
+                        <img src="Google review AI.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
 
-            <div class="review-card">
-                <img src="Google review student-7.JPG" alt="" class="review-image" loading="lazy">
-            </div>
+                    <div class="slide">
+                        <img src="Google review 4.9.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-1.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
             
-            <div class="review-card">
-                <img src="Google review student-8.JPG" alt="" class="review-image" loading="lazy">
-            </div>
+                    <div class="slide">
+                        <img src="Google review student-2.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
             
-            <div class="review-card">
-                <img src="Google review student-9.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
+                    <div class="slide">
+                        <img src="Google review student-3.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-4.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-5.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-6.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-7.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-8.JPG" alt="" class="review-image" loading="lazy">
+                    </div>
+
+                    <div class="slide">
+                        <img src="Google review student-9.JPG" alt="Student Testimonial" class="review-image" loading="lazy">
+                    </div>
+                </div>
+                <button class="slider-nav prev" id="prevBtn">‹</button>
+                <button class="slider-nav next" id="nextBtn">›</button>
+                
+                <div class="slide-counter" id="slideCounter">1 / 12</div>
+                
             </div>
+            <div class="slider-dots" id="sliderDots"></div>
         </div>
     </section>
 
@@ -1270,108 +1391,242 @@
             });
         });
 
-        let galleryItems = [];
-        let currentGalleryIndex = 0;
+        let isExpanded = false;
+        let currentImageIndex = 0;
+        let galleryImages = [];
 
-        function initializeGallery() {
-            galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+        // Initialize gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            // Collect all images for modal navigation
+            const imageItems = document.querySelectorAll('.gallery-item[data-type="image"]');
+            galleryImages = Array.from(imageItems).map(item => {
+                const img = item.querySelector('img');
+                const caption = item.querySelector('.gallery-caption');
+                return {
+                    src: img.src,
+                    alt: img.alt,
+                    title: caption.querySelector('h5').textContent,
+                    description: caption.querySelector('p').textContent
+                };
+            });
 
-            galleryItems.forEach((item, index) => {
+            // Add click handlers to images
+            imageItems.forEach((item, index) => {
                 item.addEventListener('click', () => openModal(index));
             });
+
+            // Close modal when clicking outside
+            document.getElementById('galleryModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('galleryModal').style.display === 'block') {
+                    if (e.key === 'ArrowLeft') changeImage(-1);
+                    if (e.key === 'ArrowRight') changeImage(1);
+                    if (e.key === 'Escape') closeModal();
+                }
+            });
+        });
+
+        function toggleGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const btn = document.getElementById('btn-text');
+            
+            if (isExpanded) {
+                grid.classList.remove('expanded');
+                grid.classList.add('collapsed');
+                btn.textContent = 'Show More';
+                isExpanded = false;
+            } else {
+                grid.classList.remove('collapsed');
+                grid.classList.add('expanded');
+                btn.textContent = 'Show Less';
+                isExpanded = true;
+            }
         }
 
         function openModal(index) {
-            currentGalleryIndex = index;
+            currentImageIndex = index;
             const modal = document.getElementById('galleryModal');
-            const item = galleryItems[index];
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
             
-            displayModalContent(item);
+            const imageData = galleryImages[index];
+            modalImage.src = imageData.src;
+            modalImage.alt = imageData.alt;
+            modalCaption.innerHTML = `<h3>${imageData.title}</h3><p>${imageData.description}</p>`;
+            
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-        }
-
-        function displayModalContent(item) {
-            const modalImage = document.getElementById('modalImage');
-            const modalVideo = document.getElementById('modalVideo');
-            const modalCaption = document.getElementById('modalCaption');
-            const type = item.getAttribute('data-type');
-
-            modalImage.style.display = 'none';
-            modalVideo.style.display = 'none';
-            
-            if (type === 'video') {
-                const video = item.querySelector('video');
-                const videoSource = video.querySelector('source');
-                if (videoSource && videoSource.src && videoSource.src !== '#') {
-                    modalVideo.querySelector('source').src = videoSource.src;
-                    modalVideo.load();
-                }
-                modalVideo.style.display = 'block';
-            } else {
-                const img = item.querySelector('img');
-                modalImage.src = img.src;
-                modalImage.alt = img.alt;
-                modalImage.style.display = 'block';
-            }
-
-            const img = item.querySelector('img');
-            const video = item.querySelector('video');
-            if (img) {
-                modalCaption.innerHTML = `<h5>${img.alt}</h5>`;
-            } else if (video) {
-                modalCaption.innerHTML = `<h5>${video.getAttribute('alt') || 'Video'}</h5>`;
-            }
         }
 
         function closeModal() {
             const modal = document.getElementById('galleryModal');
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-
-            const modalVideo = document.getElementById('modalVideo');
-            modalVideo.pause();
         }
 
-        function navigateModal(direction) {
-            if (direction === 'next') {
-                currentGalleryIndex = (currentGalleryIndex + 1) % galleryItems.length;
-            } else {
-                currentGalleryIndex = (currentGalleryIndex - 1 + galleryItems.length) % galleryItems.length;
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex >= galleryImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = galleryImages.length - 1;
             }
             
-            displayModalContent(galleryItems[currentGalleryIndex]);
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const imageData = galleryImages[currentImageIndex];
+            
+            modalImage.src = imageData.src;
+            modalImage.alt = imageData.alt;
+            modalCaption.innerHTML = `<h3>${imageData.title}</h3><p>${imageData.description}</p>`;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeGallery();
-
-            document.querySelector('.modal-close').addEventListener('click', closeModal);
-            document.querySelector('.modal-prev').addEventListener('click', () => navigateModal('prev'));
-            document.querySelector('.modal-next').addEventListener('click', () => navigateModal('next'));
-
-            document.getElementById('galleryModal').addEventListener('click', (e) => {
-                if (e.target.id === 'galleryModal') {
-                    closeModal();
+        class ReviewsSlider {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 12;
+                this.autoPlayInterval = null;
+                this.autoPlayDelay = 4000;
+                
+                this.sliderTrack = document.getElementById('sliderTrack');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.slideCounter = document.getElementById('slideCounter');
+                this.sliderDots = document.getElementById('sliderDots');
+                
+                this.init();
+            }
+            
+            init() {
+                this.createDots();
+                this.updateSlider();
+                this.bindEvents();
+                this.startAutoPlay();
+            }
+            
+            createDots() {
+                for (let i = 0; i < this.totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.classList.add('dot');
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.sliderDots.appendChild(dot);
                 }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                const modal = document.getElementById('galleryModal');
-                if (modal.style.display === 'block') {
-                    switch(e.key) {
-                        case 'Escape':
-                            closeModal();
-                            break;
-                        case 'ArrowLeft':
-                            navigateModal('prev');
-                            break;
-                        case 'ArrowRight':
-                            navigateModal('next');
-                            break;
+            }
+            
+            updateSlider() {
+                const translateX = -this.currentSlide * 100;
+                this.sliderTrack.style.transform = `translateX(${translateX}%)`;
+                
+                // Update counter
+                this.slideCounter.textContent = `${this.currentSlide + 1} / ${this.totalSlides}`;
+                
+                // Update dots
+                const dots = this.sliderDots.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            prevSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateSlider();
+            }
+            
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateSlider();
+            }
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) return;
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.autoPlayDelay);
+            }
+            
+            bindEvents() {
+                this.nextBtn.addEventListener('click', () => {
+                    this.nextSlide();
+                });
+                
+                this.prevBtn.addEventListener('click', () => {
+                    this.prevSlide();
+                });
+                
+                // Touch/Swipe support
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+                
+                this.sliderTrack.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                    this.stopAutoPlay();
+                });
+                
+                this.sliderTrack.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    currentX = e.touches[0].clientX;
+                });
+                
+                this.sliderTrack.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    const deltaX = startX - currentX;
+                    
+                    if (Math.abs(deltaX) > 50) {
+                        if (deltaX > 0) {
+                            this.nextSlide();
+                        } else {
+                            this.prevSlide();
+                        }
                     }
-                }
-            });
+                });
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevSlide();
+                        this.stopAutoPlay();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextSlide();
+                        this.stopAutoPlay();
+                    } else if (e.key === ' ') {
+                        e.preventDefault();
+                        this.toggleAutoPlay();
+                    }
+                });
+                
+                // Pause on hover
+                this.sliderTrack.addEventListener('mouseenter', () => {
+                    this.stopAutoPlay();
+                });
+                
+                this.sliderTrack.addEventListener('mouseleave', () => {
+                    if (!this.isPlaying) {
+                        this.startAutoPlay();
+                    }
+                });
+            }
+        }
+        
+        // Initialize slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReviewsSlider();
         });
     </script>
 </body>
