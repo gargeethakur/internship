@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls & Bears</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #00cc66;
+            --accent-color: #ff6b35;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+            --gradient-bg: linear-gradient(135deg, #0066cc, #00cc66);
+            --gradient-accent: linear-gradient(135deg, #ff6b35, #ffa500);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: var(--gradient-bg);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            background: var(--gradient-bg);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-logo {
+            height: 40px;
+            width: 40px;
+            margin-right: 0.75rem;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background: var(--gradient-bg);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .card-text {
+            flex: 1;
+            color: var(--dark-color);
+            line-height: 1.5;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #00cc66 100%);
+            color: white;
+            padding: 140px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-visual {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-visual i {
+            font-size: 12rem;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--light-color);
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Courses Section */
+        .courses {
+            padding: 100px 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-image {
+            height: 200px;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .course-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .course-features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .course-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer h5 {
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo {
+            height: 35px;
+            width: 35px;
+            margin-right: 0.5rem;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .faq-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, transparent 70%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-badge {
+            display: inline-block;
+            background: var(--gradient-bg);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .faq-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .faq-subtitle {
+            font-size: 1.25rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            border-color: rgba(0, 102, 204, 0.1);
+        }
+
+        .faq-item.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 35px rgba(0, 102, 204, 0.15);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 2rem;
+            text-align: left;
+            border: none;
+            background: transparent;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-question:focus {
+            outline: none;
+            color: var(--primary-color);
+        }
+
+        .faq-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover .faq-icon {
+            transform: scale(1.1);
+        }
+
+        .faq-question-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .faq-toggle {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 102, 204, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-toggle i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            background: var(--primary-color);
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-toggle i {
+            color: white;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            opacity: 0;
+        }
+
+        .faq-answer.active {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 2rem;
+            color: #6c757d;
+            font-size: 1rem;
+            line-height: 1.7;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+        }
+
+        .faq-cta {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faq-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-bg);
+        }
+
+        .faq-cta h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .faq-cta p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-bg);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .faq-section {
+                padding: 60px 0;
+            }
+
+            .faq-title {
+                font-size: 2.5rem;
+            }
+
+            .faq-question {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .faq-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .faq-toggle {
+                width: 35px;
+                height: 35px;
+            }
+
+            .faq-answer-content {
+                padding: 0 1.5rem 1.5rem;
+            }
+
+            .faq-cta {
+                padding: 2rem;
+                margin-top: 2rem;
+            }
+
+            .btn-outline-primary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Animation for FAQ items */
+        .faq-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
+        .faq-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                padding: 120px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-visual i {
+                font-size: 8rem;
+            }
+            
+            .card-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            
+            .hero-visual i {
+                font-size: 6rem;
+            }
+            
+            .feature-card, .course-card {
+                margin-bottom: 2rem;
+            }
+            
+            .features, .courses {
+                padding: 60px 0;
+            }
+            
+            .cta h2 {
+                font-size: 2rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.95rem;
+            }
+            
+            .card {
+                padding: 14px 18px;
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .hero-visual i {
+                font-size: 4rem;
+            }
+            
+            .feature-card, .course-content {
+                padding: 1.5rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .navbar-logo {
+                height: 32px;
+                width: 32px;
+            }
+            
+            .card {
+                padding: 12px 16px;
+                font-size: 14px;
+                gap: 12px;
+            }
+        }
+
+        /* Coach Section Styles */
+.coaches-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.coaches-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+}
+
+.coaches-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.coaches-section h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.coaches-section .lead {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+/* Coach Card Styles */
+.coach-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.coach-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color, #007bff), #28a745);
+}
+
+.coach-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Coach Image Container */
+.coach-image-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.coach-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color, #007bff), #28a745);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    position: relative;
+}
+
+.coach-image::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color, #007bff), #28a745);
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.coach-image i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+/* Coach Stats */
+.coach-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.stat-badge {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #495057;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.stat-badge:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stat-badge i {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.stat-badge.followers i {
+    color: #28a745;
+}
+
+.stat-badge.students i {
+    color: #ffc107;
+}
+
+.stat-badge.assets i {
+    color: #17a2b8;
+}
+
+.coach-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            position: relative;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+        
+        .coach-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Fallback icon styling when image is not available */
+        .coach-image i {
+            font-size: 60px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+/* Coach Content */
+.coach-content h3 {
+    color: #2c3e50;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.coach-title {
+    color: var(--primary-color, #007bff);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.coach-bio {
+    margin-bottom: 1.5rem;
+}
+
+.coach-bio p {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Credentials */
+.coach-credentials {
+    margin-bottom: 1.5rem;
+}
+
+.credential-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(var(--primary-color-rgb, 0, 123, 255), 0.05);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color, #007bff);
+}
+
+.credential-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color, #007bff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.credential-icon i {
+    color: white;
+    font-size: 1.1rem;
+}
+
+.credential-text strong {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.credential-text span {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Featured In */
+.featured-in {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.featured-label {
+    color: #6c757d;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.media-logos {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.media-logo {
+    background: #f8f9fa;
+    color: #495057;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.media-logo:hover {
+    background: var(--primary-color, #007bff);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* CTA Section */
+.cta {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--primary-color, #007bff), #28a745);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.1"/></svg>');
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cta .lead {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.cta .btn-secondary {
+    background: white;
+    color: var(--primary-color, #007bff);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cta .btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color, #007bff);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .coaches-section {
+        padding: 60px 0;
+    }
+    
+    .coach-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .coach-image-container {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .coach-stats {
+        align-items: center;
+    }
+    
+    .stat-badge {
+        justify-content: center;
+        max-width: 280px;
+    }
+    
+    .credential-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .featured-in {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .media-logos {
+        justify-content: flex-start;
+    }
+    
+    .cta h2 {
+        font-size: 2rem;
+    }
+    
+    .cta .lead {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .coach-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .coach-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .coach-image i {
+        font-size: 2rem;
+    }
+    
+    .coach-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .stat-badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo1.jpg" alt="Bulls & Bears Logo" class="navbar-logo">
+                Bulls & Bears
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto">
+                    <button class="btn btn-primary">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1>Bulls & Bears Trading Academy</h1>
+                        <p>Trade for Financial Freedom</p>
+
+                        <div class="card-container">
+                            <div class="card beginner-card">
+                                <span class="card-text">The only Share Market Academy in Maharashtra where we share our Profit - Loss Statement.</span>
+                            </div>
+
+                            <div class="card monster-card">
+                                <span class="card-text">Learn the Secrets of the Share Market.</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary btn-lg">Start Learning</button>
+                            <button class="btn btn-outline-light btn-lg">Watch Demo</button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">5K+</span>
+                                <span class="stat-label">Traders Trained</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">10K+</span>
+                                <span class="stat-label">Hours of Content</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">95%</span>
+                                <span class="stat-label">Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                     <img src=".jpg" alt="bull&bears" class="img-fluid hero-image" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3 animate-on-scroll">Why Choose Bulls & Bears?</h2>
+                    <p class="lead animate-on-scroll">Master of Investment, Stocks, Options & Algo Trading</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Multi-Bagger Stocks & Smart Investment</h3>
+                        <p>Learn how to identify high-growth stocks and make intelligent long-term investments.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Use of Indicators</h3>
+                        <p>Learn to use powerful trading indicators to enhance your market decisions.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3>Balance sheet analysis</h3>
+                        <p>Master the art of evaluating a company's financial health through its balance sheet.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Technical Analysis/chart analysis</h3>
+                        <p>Understand price movements and patterns using charts and technical indicators.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Intraday, swing & positional trading</h3>
+                        <p>Get hands-on strategies for short-term and long-term trading styles.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h3>Off-market trading methods</h3>
+                        <p>Explore unique trading techniques beyond regular market hours.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Options Trading/ options selling with hedging</h3>
+                        <p>Learn risk-managed strategies for options trading and selling with hedging.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Algo Trading</h3>
+                        <p>Automate your trades using algorithmic trading tools and strategies.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <h3>Live trading practice</h3>
+                        <p>Practice real-time trading with expert guidance in live markets.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-video"></i>
+                        </div>
+                        <h3>Pdf & Live market trading video notes</h3>
+                        <p>Access comprehensive notes and recorded sessions for continuous learning.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Risk/reward, money management, Trading Psychology</h3>
+                        <p>Build discipline with essential concepts of risk control and trading mindset.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon">
+                            <i class="fas fa-toolbox"></i>
+                        </div>
+                        <h3>Readymade strategies all trading methods</h3>
+                        <p>Use tried-and-tested strategies for every type of trading approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="courses">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3 animate-on-scroll">Our Trading Courses</h2>
+                    <p class="lead animate-on-scroll">Choose from our comprehensive range of courses designed for traders of all levels.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="course-card animate-on-scroll">
+                        <div class="course-image">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3>Course 1</h3>
+                            <div class="course-price">₹2999</div>
+                            <ul class="course-features">
+                                <li>Basic market fundamentals</li>
+                                <li>Chart reading techniques</li>
+                                <li>Risk management basics</li>
+                                <li>Live trading sessions</li>
+                                <li>Community access</li>
+                            </ul>
+                            <button class="btn btn-primary w-100 mt-3">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="course-card animate-on-scroll">
+                        <div class="course-image">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3>Course 2</h3>
+                            <div class="course-price">₹4999</div>
+                            <ul class="course-features">
+                                <li>Advanced trading strategies</li>
+                                <li>Options & futures trading</li>
+                                <li>Technical analysis mastery</li>
+                                <li>Personal mentorship</li>
+                                <li>Exclusive trading tools</li>
+                            </ul>
+                            <button class="btn btn-primary w-100 mt-3">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="course-card animate-on-scroll">
+                        <div class="course-image">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3>Course 3</h3>
+                            <div class="course-price">₹6999</div>
+                            <ul class="course-features">
+                                <li>Institutional strategies</li>
+                                <li>Algorithm trading</li>
+                                <li>Market psychology</li>
+                                <li>1-on-1 coaching</li>
+                                <li>Lifetime support</li>
+                            </ul>
+                            <button class="btn btn-primary w-100 mt-3">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Your Coach Section -->
+    <section class="coaches-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Meet your <span style="color: var(--primary-color);">Coach</span></h2>
+                </div>
+            </div>
+            
+            <div class="row g-4 align-items-stretch">
+                <!-- Coach 1 -->
+                <div class="col-lg-6 d-flex">
+                    <div class="coach-card w-100">
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <div class="coach-image-container">
+                                    <div class="coach-image">
+                                        <img src="IMG_20240130_122444.jpg" alt="Rohini Shinde" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                   
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="coach-content">
+                                    <h3>Rohini Shinde</h3>
+                                    <div class="coach-bio">
+                                        <p>Passed as M.B.A Finance Rohini Shinde is working as trader & trainer in share market since last 5 years. She worked as teacher in central Govt. schools for around 4 years. She is house maker as well as part time trader. She also handles marketing & takes live support sessions for academy's old students.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Coach 2 -->
+                <div class="col-lg-6 d-flex">
+                    <div class="coach-card w-100">
+                        <div class="row align-items-center">
+                            <div class="col-md-5">
+                                <div class="coach-image-container">
+                                    <div class="coach-image">
+                                        <img src="IMG_20240130_125223.jpg" alt="Vishal Shinde" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="coach-content">
+                                    <h3>Vishal Shinde</h3>                                 
+                                    <div class="coach-bio">
+                                        <p>Having more than 12 years Tata Group experience as Engineer; Vishal Shinde is Full time trader & trainer in Indian share market. His education qualification is B.E. Mechanical & M. E. Mechanical Design. While pursuing career as engineer in Tata Group he started part time trading (4 years) in share market. After developing disciplined, profitable trading methods he left his job in 2021 & started as full time trader & is in consistently in profit every year. He is almost 15 time Zerodha challenge winner. He is the only trainer in share market in Maharashtra who share his profit-Loss statement live in his webinars & trainings. He gives live market trading sessions.</p>
+                                    </div>
+                                    
+                                   
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Ready to Transform Your Trading Journey?</h2>
+                    <p class="lead mb-4">Join thousands of successful traders who have transformed their financial future with Bulls & Bears.</p>
+                    <button class="btn btn-secondary btn-lg">Start Your Journey Today</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-header">
+                <div class="faq-badge">
+                    <i class="fas fa-question-circle me-2"></i>
+                    Frequently Asked Questions
+                </div>
+                <h2 class="faq-title">Got Questions?</h2>
+                <p class="faq-subtitle">Find answers to the most commonly asked questions about Bulls & Bears Trading Academy and our courses.</p>
+            </div>
+
+            <div class="faq-container">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            Is this webinar beginner-friendly?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely! Our webinar is specifically designed for beginners who want to learn about stock trading. We start with the fundamentals and build up your knowledge step by step. No prior experience is required - we'll guide you through everything from basic market concepts to practical trading strategies.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            In which language will the webinar be conducted?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            The webinar will be conducted in Hindi and English to ensure maximum accessibility. Our expert instructors will use clear, simple language with practical examples to make complex trading concepts easy to understand for everyone.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            Will the recording be provided?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! All registered participants will receive a high-quality recording of the webinar within 24 hours of completion. You'll also get access to supplementary materials, PDF notes, and any additional resources mentioned during the session for lifetime access.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            How can I connect with the Bulls & Bears support team?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            You can reach our dedicated support team through multiple channels: email us at support@bullsandbears.com, use our live chat feature available 24/7 on our website, or call our helpline at +91-XXX-XXX-XXXX during business hours (9 AM - 8 PM). We're here to help you succeed!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            What is the fee structure for your courses?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We offer three comprehensive courses: Beginner Trader (₹9,999), Super Trader (₹29,999), and Elite Trader (₹49,999). Each course includes different levels of support, resources, and mentorship. We also offer flexible payment plans and early bird discounts for serious learners.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <div class="faq-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="faq-question-text">
+                            Do you provide certification upon course completion?
+                        </div>
+                        <div class="faq-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Upon successful completion of any of our courses, you'll receive a certified completion certificate from Bulls & Bears Trading Academy. This certificate validates your knowledge and skills in stock trading and can be a valuable addition to your professional portfolio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ CTA -->
+            <div class="faq-cta">
+                <h3>Still have questions?</h3>
+                <p>Our team is here to help you make the right decision for your trading journey.</p>
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-comments me-2"></i>
+                    Contact Support
+                </a>
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="fas fa-phone me-2"></i>
+                    Schedule a Call
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Ready to Transform Your Trading Journey?</h2>
+                    <p class="lead mb-4">Join thousands of successful traders who have transformed their financial future with Bulls & Bears.</p>
+                    <button class="btn btn-secondary btn-lg">Start Your Journey Today</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-chart-line me-2"></i>Bulls & Bears</h5>
+                    <p> - </p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#courses">Courses</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Courses</h5>
+                    <ul class="footer-links">
+                        <li><a href="#courses">Course 1</a></li>
+                        <li><a href="#courses">Course 2</a></li>
+                        <li><a href="#courses">Course 3</a></li>
+                        <li><a href="#courses">Live Sessions</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Help Center</a></li>
+                        <li><a href="#about">Community</a></li>
+                        <li><a href="#about">Documentation</a></li>
+                        <li><a href="#about">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Disclaimer</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>&copy; 2025 Bulls & Bears. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for hero stats
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (target >= 1000) {
+                    element.textContent = Math.floor(current / 1000) + 'K+';
+                } else {
+                    element.textContent = Math.floor(current) + '%';
+                }
+            }, 16);
+        }
+
+        // Trigger counter animation when hero section is visible
+        const heroObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = document.querySelectorAll('.stat-number');
+                    animateCounter(counters[0], 10000);
+                    animateCounter(counters[1], 5000);
+                    animateCounter(counters[2], 95);
+                    heroObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        heroObserver.observe(document.querySelector('.hero'));
+
+        // Mobile menu close on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            });
+        });
+
+        // Add hover effects to cards
+        document.querySelectorAll('.feature-card, .course-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        function toggleFAQ(button) {
+            const faqItem = button.closest('.faq-item');
+            const faqAnswer = faqItem.querySelector('.faq-answer');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+            
+            // Toggle current FAQ item
+            if (isActive) {
+                faqItem.classList.remove('active');
+                faqAnswer.classList.remove('active');
+            } else {
+                faqItem.classList.add('active');
+                faqAnswer.classList.add('active');
+            }
+        }
+
+        // Close FAQ when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.faq-item')) {
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
